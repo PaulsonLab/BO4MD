@@ -8,7 +8,7 @@ Bayesian Optimization for Molecular Dynamics Simulation Automation
 ```sh
 git clone https://github.com/PaulsonLab/BO4MD.git
 ```
-2. **Navigate to `./bo4md`:**
+2. **Navigate to `~/bo4md`:**
 ```sh
 cd ./bo4md
 ```
@@ -20,9 +20,10 @@ poetry install
 ## Command-Line Usage
 
 You can run Bayesian Optimization directly from the command line:
-
-    python -m bo4md --smoke_test true --acq logei --d 3 --n-init 10 --n-iter 20 --patience 5 --seed 42 --plot true --report true
-
+```sh
+cd ./src/bo4md
+python -m bo4md --smoke_test true --acq logei --d 3 --n-init 10 --n-iter 20 --patience 5 --seed 42 --plot true --report true
+```
 ### Input Arguments
 
 - `--smoke_test` (bool, default: true)  
