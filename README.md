@@ -19,21 +19,56 @@ poetry install
 
 
 ## Usage
-Run the following in the command line:
-```sh
-poetry run python bayes_opt.py --smoke_test True --acq logei --n-init 15 --n-iter 30 --patience 10 --seed 42
-```
-Or
-```sh
-python bayes_opt.py --smoke_test True --acq logei --n-init 15 --n-iter 30 --patience 10 --seed 42
-```
+## Command-Line Usage
 
-The inputs are: 
-- `file` - filename of the SEM image (.csv, .png, .tif, and .tiff are supported)
-- `tol` (default=0.20) - threshold to compare against the relative difference between the feature sizes computed based on an average of all directions and the dominant direction, which is used to determine whether the features are isotropic or not
-- `plot` (True or False, default=True) - whether to plot out the radial profile of the autocorrelation map
-- `xlim` (default=None) - range of radius for the radial profile plot for the purpose of improving visualization of the tiny peak
-- `ylim` (default=None) - range of autocorrelation for the radial profile plot for the purpose of improving visualization of the tiny peak
+You can run Bayesian Optimization directly from the command line:
+
+    python -m bo4md --smoke_test true --acq logei --d 3 --n-init 10 --n-iter 20 --patience 5 --seed 42 --plot true --report true
+
+### Input Arguments
+
+--smoke_test (bool, default: true)  
+    If true, runs the built-in synthetic smoke test function.  
+    If false, runs the md simulator function (must be implemented by the user).  
+
+--acq (str, default: "logei")  
+    Acquisition function. Choices: ucb, ei, logei, random.  
+
+--d (int, default: 3)  
+    Input dimensionality (number of simplex components).  
+
+--n-init (int, default: 10)  
+    Number of initial random samples drawn from the simplex.  
+
+--n-iter (int, default: 20)  
+    Maximum number of Bayesian Optimization iterations.  
+
+--patience (int, default: 5)  
+    Early stopping patience (stop if no improvement for this many iterations).  
+
+--seed (int or None, default: None)  
+    Random seed for reproducibility.  
+
+--plot (bool, default: true)  
+    If true, generates a plot of best-so-far objective value vs. iteration (bo_traj.png).  
+
+--report (bool, default: true)  
+    If true, writes a text report of the optimization trajectory (out.txt).  
+
+### Examples
+
+Run a quick smoke test with default settings:
+
+    python -m bo4md
+
+Run 30 iterations with UCB acquisition, 15 initial samples, and a fixed seed:
+
+    python -m bo4md --smoke_test true --acq ucb --n-init 15 --n-iter 30 --seed 123
+
+Run with the MD simulator instead of the smoke test:
+
+    python -m bo4md --smoke_test false --acq logei
+
 
 ## Citation
 ```
