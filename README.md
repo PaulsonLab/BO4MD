@@ -21,7 +21,6 @@ poetry install
 
 You can run Bayesian Optimization directly from the command line:
 ```sh
-cd ./src/bo4md
 python -m bo4md --smoke_test true --acq logei --d 3 --n-init 10 --n-iter 20 --patience 5 --seed 42 --plot true --report true
 ```
 ### Input Arguments
