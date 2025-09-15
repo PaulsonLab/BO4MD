@@ -25,32 +25,32 @@ You can run Bayesian Optimization directly from the command line:
 
 ### Input Arguments
 
-- **--smoke_test** (bool, default: true)  
+- `--smoke_test` (bool, default: true)  
   If true, runs the built-in synthetic smoke test function.  
   If false, runs the md simulator function (must be implemented by the user).
 
-- **--acq** (str, default: "logei")  
+- `--acq` (str, default: "logei")  
   Acquisition function. Choices: ucb, ei, logei, random.
 
-- **--d** (int, default: 3)  
+- `--d` (int, default: 3)  
   Input dimensionality (number of simplex components).
 
-- **--n-init** (int, default: 10)  
+- `--n-init` (int, default: 10)  
   Number of initial random samples drawn from the simplex.
 
-- **--n-iter** (int, default: 20)  
+- `--n-iter` (int, default: 20)  
   Maximum number of Bayesian Optimization iterations.
 
-- **--patience** (int, default: 5)  
+- `--patience` (int, default: 5)  
   Early stopping patience (stop if no improvement for this many iterations).
 
-- **--seed** (int or None, default: None)  
+- `--seed` (int or None, default: None)  
   Random seed for reproducibility.
 
-- **--plot** (bool, default: true)  
+- `--plot` (bool, default: true)  
   If true, generates a plot of best-so-far objective value vs. iteration (bo_traj.png).
 
-- **--report** (bool, default: true)  
+- `--report` (bool, default: true)  
   If true, writes a text report of the optimization trajectory (out.txt).
 
 ### Examples
