@@ -56,17 +56,19 @@ You can run Bayesian Optimization directly from the command line:
 ### Examples
 
 Run a quick smoke test with default settings:
-
+```sh
     python -m bo4md
+```
 
-Run 30 iterations with UCB acquisition, 15 initial samples, and a fixed seed:
-
+Run a smoke test with 30 iterations using UCB acquisition, 15 initial samples, and a fixed seed:
+```sh
     python -m bo4md --smoke_test true --acq ucb --n-init 15 --n-iter 30 --seed 123
+```
 
 Run with the MD simulator instead of the smoke test:
-
-    python -m bo4md --smoke_test false --acq logei
-
+```sh
+    python -m bo4md --smoke_test false 
+```
 
 
 ## Citation
