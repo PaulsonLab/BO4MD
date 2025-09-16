@@ -54,7 +54,6 @@ python -m bo4md --smoke_test true --acq logei --d 3 --n-init 10 --n-iter 20 --pa
   If true, writes a text report of the optimization trajectory (out.txt).
 
 - `--outfolder` (str or None, default: ./out)
-
   Output folder for initial data file, trajectory plot, and report.
 
 ### Examples
