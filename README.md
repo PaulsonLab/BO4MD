@@ -12,6 +12,20 @@ git clone https://github.com/PaulsonLab/BO4MD.git
 ```sh
 cd ./BO4MD
 ```
+
+4. **(Optional) Uncomment lines 19-27 in [pyproject.toml](./pyproject.toml) (shown in the following) if you have CUDA 12.4 on your system. This will install PyTorch with GPU support.
+```sh
+[tool.poetry.group.cuda.dependencies]
+torch = { version = "2.6.0", source = "pytorch-cu124" }
+torchvision = { version = "0.21.0", source = "pytorch-cu124" }
+torchaudio = { version = "2.6.0", source = "pytorch-cu124" }
+
+[[tool.poetry.source]]
+name = "pytorch-cu124"
+url = "https://download.pytorch.org/whl/cu124"
+priority = "explicit"
+```
+
 3. **Install via [poetry](https://python-poetry.org/):**
 ```sh
 poetry install
