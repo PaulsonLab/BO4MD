@@ -78,7 +78,6 @@ def gen_candidate_softmax(
         else:
             acq_under_x = UpperConfidenceBound(model=model, beta=beta_ucb, maximize=False)
 
-
         # Wrap with softmax reparam (optimize in logits Z)
         wrapped = SoftmaxAcq(acq_under_x=acq_under_x, temperature=temperature)
 
