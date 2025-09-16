@@ -27,7 +27,7 @@ python -m bo4md --smoke_test true --acq logei --d 3 --n-init 10 --n-iter 20 --pa
 
 - `--smoke_test` (bool, default: true)  
   If true, runs the built-in synthetic smoke test function.  
-  If false, runs the md simulator function (must be implemented by the user).
+  If false, runs the MD simulator function (must be implemented by the user).
 
 - `--acq` (str, default: "logei")  
   Acquisition function. Choices: ucb, ei, logei, random.
@@ -73,6 +73,8 @@ Run with the MD simulator instead of the smoke test:
 python -m bo4md --smoke_test false 
 ```
 
+### Note
+ The *md* function in [`simulator.py`](./src/bo4md/simulator.py) serves as a template which can be adapted to call real MD simulations. It expects an [n, d] torch tensor as input and returns an [n] torch tensor (simulation output), where n is number of data points and d is input dimension.
 
 ## Citation
 ```
