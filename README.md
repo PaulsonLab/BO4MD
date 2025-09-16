@@ -13,7 +13,7 @@ git clone https://github.com/PaulsonLab/BO4MD.git
 cd ./BO4MD
 ```
 
-3. **(Optional) Uncomment lines 19-27 in [pyproject.toml](./pyproject.toml) if you have CUDA 12.4 on your system. This will enable installation of PyTorch with GPU support.
+3. **(Optional) Uncomment lines 19-27 in [pyproject.toml](./pyproject.toml) if you have CUDA 12.4 on your system.** This will enable installation of PyTorch with GPU support.
 
 4. **Install via [poetry](https://python-poetry.org/):**
 ```sh
