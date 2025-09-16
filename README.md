@@ -74,7 +74,7 @@ python -m bo4md --smoke_test false
 ```
 
 ### Note
- The *md* function in [`simulator.py`](./src/bo4md/simulator.py) serves as a template which can be adapted to call real MD simulations. It expects an [n, d] torch tensor as input and returns an [n] torch tensor (simulation output), where n is number of data points and d is input dimension.
+ The *md(.)* function in [`simulator.py`](./src/bo4md/simulator.py) serves as a template which needs to be adapted to call real MD simulations. It expects an [n, d] torch tensor as input and returns an [n] torch tensor (simulation output), where n is number of data points and d is input dimension.
 
 ## Citation
 ```
