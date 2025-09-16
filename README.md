@@ -8,9 +8,9 @@ Bayesian Optimization for Automated Molecular Dynamics Simulations
 ```sh
 git clone https://github.com/PaulsonLab/BO4MD.git
 ```
-2. **Navigate to `~/bo4md`:**
+2. **Navigate to `~/BO4MD`:**
 ```sh
-cd ./bo4md
+cd ./BO4MD
 ```
 3. **Install via [poetry](https://python-poetry.org/):**
 ```sh
