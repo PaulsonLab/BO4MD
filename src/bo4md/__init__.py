@@ -1,6 +1,6 @@
-from bayes_opt import *
-from simulator import *
-from utils import *
+from bo4md.bayes_opt import *
+from bo4md.simulator import *
+from bo4md.utils import *
 
 
 __all__ = [

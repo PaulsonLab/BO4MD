@@ -3,6 +3,7 @@ name = "bo4md"
 version = "0.1.0"
 description = "Bayesian Optimization for Molecular Dynamics Simulation Automation"
 authors = ["Tianhong Tan <tianhong.tan@wisc.edu>"]
+readme = "README.md"
 packages = [{ include = "bo4md", from = "src" }]
 
 [tool.poetry.dependencies]

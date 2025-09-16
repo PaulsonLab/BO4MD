@@ -1,3 +1,4 @@
+import os
 import matplotlib.pyplot as plt
 
 
@@ -26,7 +27,7 @@ def plot_traj(results, title="BO Trajectory", dpi=300, save_path=None):
     if save_path is not None:
         plt.savefig(save_path, dpi=dpi, bbox_inches="tight")
         plt.close()
-        print(f"Figure saved to {save_path}")
+        print(f"Figure saved to '{save_path}'")
     else:
         plt.show()
 
@@ -76,10 +77,10 @@ def save_results(results, filename="out.txt"):
         for i, y in enumerate(results["best_y_hist"], 1):
             f.write(f"Iter {i:02d}: {y:.6f}\n")
 
-    print(f"Results written to {filename}")
+    print(f"Results written to '{filename}'")
 
 
-def save_initial_samples(X_init, Y_init, filename="init_samples.txt"):
+def save_initial_samples(X_init, Y_init, filename):
     """
     Save initial design samples (X_init, Y_init) to a text file.
 
@@ -99,4 +100,10 @@ def save_initial_samples(X_init, Y_init, filename="init_samples.txt"):
             y_val = float(Y_init[i].item())
             f.write(f"Init {i+1:02d}: X = [{', '.join(x_list)}], Y = {y_val:.6f}\n")
 
-    print(f"[Init] Saved {N_init} initial samples to {filename}")
+    print(f"[Init] Saved {N_init} initial samples to '{filename}'")
+
+
+def create_outfolder(outfolder):
+    if outfolder is None:
+        outfolder = "./out"
+    os.makedirs(outfolder, exist_ok=True)

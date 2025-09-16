@@ -7,8 +7,7 @@ from botorch.acquisition.analytic import ExpectedImprovement, UpperConfidenceBou
 from botorch.acquisition import LogExpectedImprovement
 from gpytorch.mlls.exact_marginal_log_likelihood import ExactMarginalLogLikelihood
 from botorch.models.transforms import Normalize, Standardize
-from utils import plot_traj, save_results, save_initial_samples
-from simulator import smoke_test, md
+from bo4md.utils import save_initial_samples, create_outfolder
 # import matplotlib.pyplot as plt
 
 
@@ -119,15 +118,18 @@ def run_bo(
     device=DEVICE,
     dtype=DTYPE,
     seed=None,
+    outfolder=None,
 ):
     if seed is not None:
         torch.manual_seed(seed)
 
+    create_outfolder(outfolder)
+        
     # Initial design
     print("\n======== Initial Samples Collection Start ========")
     train_X = sample_simplex_dirichlet(n_init, d=d, device=device, dtype=dtype)  # [n_init, d]
     train_Y = black_box(train_X).unsqueeze(-1)  # [n_init, 1]
-    save_initial_samples(train_X, train_Y, filename="init_samples.txt")
+    save_initial_samples(train_X, train_Y, filename=outfolder+"/init_samples.txt")
 
 
     # Trajectory storage
@@ -197,63 +199,3 @@ def run_bo(
         "iters_run": iters_run,       # int
     }
     return results
-
-
-if __name__ == "__main__":
-    import argparse
-    import warnings
-    
-    warnings.filterwarnings("ignore")
-
-    def str2bool(v):
-        if isinstance(v, bool):
-            return v
-        if v.lower() in ("yes", "true", "t", "1"):
-            return True
-        elif v.lower() in ("no", "false", "f", "0"):
-            return False
-        else:
-            raise argparse.ArgumentTypeError("Boolean value expected.")
-
-    parser = argparse.ArgumentParser(description="Run Bayesian Optimization")
-    parser.add_argument("--smoke_test", type=str2bool, default=True, help="Smoke test (True/False)")
-    parser.add_argument("--acq", type=str, default="logei", help="Acquisition function: 'ucb', 'ei', 'logei', or 'random'")
-    parser.add_argument("--d", type=int, default=3, help="Input dimension (number of simplex components)")
-    parser.add_argument("--n-init", type=int, default=10, help="Number of initial samples")
-    parser.add_argument("--n-iter", type=int, default=20, help="Max number of BO iterations")
-    parser.add_argument("--patience", type=int, default=5, help="Early stopping patience")
-    parser.add_argument("--seed", type=int, default=None, help="Random seed")
-    parser.add_argument("--plot", type=str2bool, default=True, help="Plot best-so-far target vs number of BO iterations (True/False)")
-    parser.add_argument("--report", type=str2bool, default=True, help="Report BO trajectory (True/False)")
-    args = parser.parse_args()
-
-    if args.smoke_test:
-        black_box = smoke_test
-    else:
-        black_box = md
-
-    results = run_bo(
-        black_box=black_box,
-        fit_model=fit_model,
-        gen_candidate_softmax=gen_candidate_softmax,
-        d=args.d,
-        n_init=args.n_init,
-        n_iter=args.n_iter,
-        acq_type=args.acq,
-        patience=args.patience,
-        seed=args.seed,
-        device=DEVICE,
-        dtype=DTYPE,
-        
-    )
-
-    print("\n======== Final Report ========")
-    print(f"Best y: {results['best_y']:.6f}")
-    print(f"Best x: {results['best_x'].tolist()}")
-    print(f"Iterations run: {results['iters_run']}")
-
-    if args.plot:
-        plot_traj(results, title="BO Trajectory (LogEI, Single Run)", save_path="bo_traj.png")
-
-    if args.report:
-        save_results(results, filename="out.txt")
