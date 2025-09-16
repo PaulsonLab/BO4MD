@@ -1,7 +1,7 @@
 # BO4MD
 
 ## Overview
-Bayesian Optimization for Molecular Dynamics Simulation Automation
+Bayesian Optimization for Automated Molecular Dynamics Simulations
 
 ## Installation
 1. **Clone the repository:**
