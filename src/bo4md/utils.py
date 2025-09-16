@@ -41,9 +41,9 @@ def save_results(results, filename="out.txt"):
         results: dict returned by run_bo_simplex3_once
         filename: path to save the .txt file
     """
-    N_total = results["train_X"].shape[0]
-    N_iters = results["iters_run"]
-    N_init = N_total - N_iters  # number of initial samples
+    n_total = results["train_X"].shape[0]
+    n_iters = results["iters_run"]
+    n_init = n_total - n_iters
 
     with open(filename, "w") as f:
         f.write("Bayesian Optimization Run Results\n")
@@ -55,11 +55,11 @@ def save_results(results, filename="out.txt"):
         f.write(f"Final best y: {best_y:.6f}\n")
         if best_x is not None:
             f.write(f"At x = {best_x}\n")
-        f.write(f"Iterations run: {results['iters_run']} (plus {N_init} initial samples)\n\n")
+        f.write(f"Iterations run: {results['iters_run']} (plus {n_init} initial samples)\n\n")
 
         # Initial design
         f.write("Initial design samples (X_init, Y_init):\n")
-        for i in range(N_init):
+        for i in range(n_init):
             x_list = [f"{xi:.6f}" for xi in results["train_X"][i].tolist()]
             y_val = float(results["train_Y"][i].item())
             f.write(f"Init {i+1:02d}: X = [{', '.join(x_list)}], Y = {y_val:.6f}\n")
@@ -80,27 +80,27 @@ def save_results(results, filename="out.txt"):
     print(f"Results written to '{filename}'")
 
 
-def save_initial_samples(X_init, Y_init, filename):
+def save_initial_samples(X_init, y_init, filename):
     """
-    Save initial design samples (X_init, Y_init) to a text file.
+    Save initial design samples (X_init, y_init) to a text file.
 
     Args:
-        X_init: Tensor [N_init, d]
-        Y_init: Tensor [N_init, 1]
+        X_init: Tensor [n_init, d]
+        y_init: Tensor [n_init, 1]
         filename: output file path
     """
-    N_init, d = X_init.shape
+    n_init, d = X_init.shape
     with open(filename, "w") as f:
         f.write("Initial Design Samples\n")
         f.write("=" * 40 + "\n\n")
-        f.write(f"Number of initial samples: {N_init}\n\n")
+        f.write(f"Number of initial samples: {n_init}\n\n")
 
-        for i in range(N_init):
+        for i in range(n_init):
             x_list = [f"{xi:.6f}" for xi in X_init[i].tolist()]
-            y_val = float(Y_init[i].item())
+            y_val = float(y_init[i].item())
             f.write(f"Init {i+1:02d}: X = [{', '.join(x_list)}], Y = {y_val:.6f}\n")
 
-    print(f"[Init] Saved {N_init} initial samples to '{filename}'")
+    print(f"[Init] Saved {n_init} initial samples to '{filename}'")
 
 
 def create_outfolder(outfolder):

@@ -8,7 +8,6 @@ from botorch.acquisition import LogExpectedImprovement
 from gpytorch.mlls.exact_marginal_log_likelihood import ExactMarginalLogLikelihood
 from botorch.models.transforms import Normalize, Standardize
 from bo4md.utils import save_initial_samples, create_outfolder
-# import matplotlib.pyplot as plt
 
 
 DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -61,7 +60,7 @@ def gen_candidate_softmax(
     """
     device, dtype = train_X.device, train_X.dtype
 
-    # ---- Build the acquisition on true-X space ----
+    # Build the acquisition on true-X space
     acq_type = acq_type.lower()
     if acq_type not in ("logei", "ei", "ucb", "random"):
         raise ValueError(f"Unknown acq_type='{acq_type}'. Choose from 'logei', 'ei', 'ucb', 'random'")
@@ -80,13 +79,13 @@ def gen_candidate_softmax(
             acq_under_x = UpperConfidenceBound(model=model, beta=beta_ucb, maximize=False)
 
 
-        # ---- Wrap with softmax reparam (optimize in logits Z) ----
+        # Wrap with softmax reparam (optimize in logits Z)
         wrapped = SoftmaxAcq(acq_under_x=acq_under_x, temperature=temperature)
 
         # Unconstrained logits box
         logit_bounds = torch.tensor([[-4.0] * d, [4.0] * d], device=device, dtype=dtype)
 
-        # ---- Optimize acquisition in Z-space ----
+        # Optimize acquisition in Z-space
         cands, _ = optimize_acqf(
             acq_function=wrapped,
             bounds=logit_bounds,
@@ -95,7 +94,7 @@ def gen_candidate_softmax(
             raw_samples=raw_samples,
             return_best_only=True,
         )
-        # ---- Map logits -> simplex X ----
+        # Map logits -> simplex X
         X_next = torch.softmax(cands / temperature, dim=-1)  # [q, d]
 
     else:  # "random"
@@ -125,14 +124,12 @@ def run_bo(
 
     create_outfolder(outfolder)
         
-    # Initial design
+    # Initial samples
     print("\n======== Initial Samples Collection Start ========")
     train_X = sample_simplex_dirichlet(n_init, d=d, device=device, dtype=dtype)  # [n_init, d]
     train_Y = black_box(train_X).unsqueeze(-1)  # [n_init, 1]
     save_initial_samples(train_X, train_Y, filename=outfolder+"/init_samples.txt")
 
-
-    # Trajectory storage
     X_traj, y_traj = [], []
     best_y = float("inf")
     best_x = None
@@ -156,16 +153,13 @@ def run_bo(
 
         Y_next = black_box(X_next).unsqueeze(-1)  # [1, 1]
 
-        # Update data
         train_X = torch.cat([train_X, X_next], dim=0)
         train_Y = torch.cat([train_Y, Y_next], dim=0)
 
-        # Log trajectory
         X_traj.append(X_next.detach().squeeze(0))
         y_val = float(Y_next.item())
         y_traj.append(y_val)
 
-        # Best tracking
         if y_val < best_y:
             best_y = y_val
             best_x = X_next.detach().squeeze(0)
@@ -176,14 +170,12 @@ def run_bo(
         best_y_hist.append(best_y)
         iters_run = n + 1
 
-        # Print intermediate results
         x_str = ", ".join([f"{xi:.4f}" for xi in X_next.squeeze(0).tolist()])
         print(
             f"[Iter {n+1:02d}] y = {y_val:.6f} "
             f"(best so far = {best_y:.6f} at x = [{x_str}])"
         )
 
-        # Early stopping
         if no_improve >= patience:
             print(f"[Early stop] No improvement in last {patience} iterations.")
             break
@@ -198,4 +190,5 @@ def run_bo(
         "best_y": best_y,             # float
         "iters_run": iters_run,       # int
     }
+
     return results
