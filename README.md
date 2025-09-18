@@ -15,10 +15,11 @@ cd ./BO4MD
 
 3. **(Optional) Uncomment lines 19-27 in [pyproject.toml](./pyproject.toml) if you have CUDA 12.4 on your system.** This will enable installation of PyTorch with GPU support.
 
-4. **Install via [poetry](https://python-poetry.org/):** Note: poetry needs to be first.
+4. **Install via [poetry](https://python-poetry.org/):**
 ```sh
 poetry install
 ```
+Note: poetry needs to be first.
 
 ## Command-Line Usage
 
