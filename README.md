@@ -19,7 +19,7 @@ cd ./BO4MD
 ```sh
 poetry install
 ```
-Note: poetry needs to be first.
+Note: poetry needs to be installed first.
 
 ## Command-Line Usage
 
